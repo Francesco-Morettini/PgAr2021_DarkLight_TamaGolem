@@ -1,17 +1,20 @@
+import java.util.Random;
+
 public class Partita {
     private int equilibrio[][] = new int[5][5];
     private int cellesettate=0;
+    private Random r= new Random();
+
     public Partita() {
-      //  generaEquilibrio();
+        generaEquilibrio();
     }
 
-
-    /*private void generaEquilibrio() {
+    private void generaEquilibrio() {
         int i ;
-        //setto la prima riga
+
     for(i=0;i<5;i++) {
 
-            for (int j =1; j < 5; j++) {
+            for (int j =0; j < 5; j++) {
                 if(j>i)
                 getNumeroCasualerighe(i, j);
             }
@@ -44,8 +47,12 @@ public class Partita {
 
             if (sommariga <10 && (cellesettate < 3 - riga || cellesettate==0) && sommacolonna<10 )//cellesettate (cellesettate < 3 - riga || cellesettate=0)
             {
-                cellesettate++;
-                equilibrio[riga][colonna]= (int)( (Math.random() * ((10 - Math.max(sommariga,sommacolonna))))+0) ;
+
+                if(10-Math.max(sommariga,sommacolonna)>0) {
+                    cellesettate++;
+
+                    equilibrio[riga][colonna] = r.nextInt(10 - Math.max(sommariga, sommacolonna));
+                }
             }
 
     }
@@ -72,10 +79,13 @@ public class Partita {
                                 equilibrio[j][colonna]=sommariga;
                                 break;
                             default:
-                                equilibrio[j][colonna]=(int) (Math.random() * (sommariga - sommacolonna)) + 1;
-                                contatorezeri--;
-                                sommariga-=equilibrio[j][colonna];
+                                if(sommariga-sommacolonna>0) {
+                                    equilibrio[j][colonna] = r.nextInt(sommariga - sommacolonna) + 1;
+                                    contatorezeri--;
+                                    sommariga -= equilibrio[j][colonna];
+                                }
                                 break;
+
                         }
 
                     }
@@ -83,6 +93,6 @@ public class Partita {
                 }
             }
 
-        }*/
+        }
     }
 
