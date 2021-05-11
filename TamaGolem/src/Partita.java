@@ -1,63 +1,24 @@
 public class Partita {
     private int equilibrio[][] = new int[5][5];
-    private int cellesettate = 0;
-
+    private int cellesettate=0;
     public Partita() {
-        generaEquilibrio();
+      //  generaEquilibrio();
     }
 
-    /*public void generaEquilibrio()
-    {
 
-        for(int i=0;i<5;i++)
-            for(int j=0;j<5;j++)
-            {
-                if(j>i) {
-                    equilibrio[i][j] = numeriCasualiGiusti(i,j);
-
-                }
-            }
-
-        // stampa matrice
-        for(int i=0;i<5;i++) {
-            for (int j = 0; j < 5; j++) {
-                System.out.print(equilibrio[i][j]);
-
-            }
-            System.out.println("");
-        }
-
-
-
-    }
-    private int numeriCasualiGiusti(int riga,int colonna){
-        int sommariga=0 ,sommacolonna=0;
-
-        for(int j=0;j<5;j++)
-            sommariga+=equilibrio[riga][j];
-
-        for(int i=0;i<5;i++)
-            sommacolonna+=equilibrio[i][colonna];
-
-        if(sommariga>=10 || sommacolonna>=10)
-            return 0;
-        else
-            return (int) (Math.random() * (9-sommariga)-1) + 1;
-
-    }*/
-    private void generaEquilibrio() {
+    /*private void generaEquilibrio() {
         int i ;
         //setto la prima riga
     for(i=0;i<5;i++) {
 
-            for (int j = 1; j < 5; j++) {
+            for (int j =1; j < 5; j++) {
                 if(j>i)
                 getNumeroCasualerighe(i, j);
             }
-            cellesettate = 0;
+            cellesettate=0;
             // setto la prima colonna
-
-            for (int j = 1; j < 5; j++) {
+            //prima era 1 la j
+            for (int j =0 ; j < 5; j++) {
 
                 getNumeroCasualecolonna(i);
             }
@@ -74,35 +35,37 @@ public class Partita {
     }
 
     private void getNumeroCasualerighe(int riga,int colonna) {
-        int somma = 0;
-
+        int sommariga = 0,sommacolonna=0;
+        for (int j = 0; j < 5; j++) {
+            sommacolonna += equilibrio[j][riga];
+        }
         for (int j = 0; j < 5; j++)
-            somma += equilibrio[riga][j];
+            sommariga += equilibrio[riga][j];
 
-            if (somma <10 && cellesettate <= 3 - riga)
+            if (sommariga <10 && (cellesettate < 3 - riga || cellesettate==0) && sommacolonna<10 )//cellesettate (cellesettate < 3 - riga || cellesettate=0)
             {
                 cellesettate++;
-                equilibrio[riga][colonna]= (int) (Math.random() * (10 - somma)) + 0;
+                equilibrio[riga][colonna]= (int)( (Math.random() * ((10 - Math.max(sommariga,sommacolonna))))+0) ;
             }
 
     }
 
     private void getNumeroCasualecolonna(int colonna) {
-        int sommariga = 0, sommacolonna = 0, contatorezeri = 0;
-        for (int j = 1; j < 5; j++) {
+        int sommariga = 0, sommacolonna = 0, contatorezeri = -1;
+        for (int j = 0; j < 5; j++) {
             sommariga += equilibrio[colonna][j];
         }
-        for (int j = 1; j < 5; j++) {
+        for (int j = 0; j < 5; j++) {
             sommacolonna += equilibrio[j][colonna];
         }
-        for (int j = 1; j < 5; j++) {
-            if (equilibrio[colonna][j] == 0) {
+        for (int j = 0; j < 5; j++) {
+            if (equilibrio[colonna][j] == 0 ) {
                 contatorezeri++;
             }
         }
-            if (sommacolonna < 10) {
+            if (sommacolonna < 10  ) {
                 for (int j = 1; j < 5; j++) {
-                    if (equilibrio[colonna][j] == 0) {
+                    if (equilibrio[colonna][j] == 0 && j!=colonna) {
                         switch (contatorezeri)
                         {
                             case 1:
@@ -120,6 +83,6 @@ public class Partita {
                 }
             }
 
-        }
+        }*/
     }
 
