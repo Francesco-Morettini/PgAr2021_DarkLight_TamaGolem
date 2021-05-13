@@ -16,6 +16,19 @@ public class Tamagolem {
     public void setVitaDisponibile(int danno) {
         vitaDisponibile = vitaDisponibile - danno;
     }
+    public void addPietre(int elemento)
+    {
+        if(elemento==0)
 
+            if(elemento==1)
+
+                if(elemento==2)
+
+                    if(elemento==3)
+
+                        if(elemento==4)
+
+
+    }
 
 }

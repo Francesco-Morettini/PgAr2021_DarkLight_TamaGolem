@@ -7,15 +7,21 @@ public class Giocatore {
     private int tamagolemEvocabili;
     private int tamagolemEliminati = 0;
     private Tamagolem tamagolem;
+    private int vita;
+    private int pietreassegnabili;
 
-    public Giocatore(int tamagolemEvocabili) {
+    public Giocatore(int tamagolemEvocabili, int vita,int pietreassegnabili) {
         this.tamagolemEvocabili = tamagolemEvocabili;
+        this.vita=vita;
+        this.pietreassegnabili=pietreassegnabili;
     }
 
-    public boolean evocazione(int vita, int scortapietre[], int pietreassegnabili) {
-        int scelta;
+    public boolean evocazione(int scortapietre[]) {
+        int scelta,npietre=pietreassegnabili;
         InputDati scanner = new InputDati();
         if (tamagolemEvocabili > 0) {
+            tamagolem= new Tamagolem(vita);
+            tamagolemEvocabili--;
             do {
                 System.out.println("Benvenuto scegli la pietra da assegnare al tamagolem:");
                 if (scortapietre[0] > 0)
@@ -28,9 +34,32 @@ public class Giocatore {
                     System.out.println("Premi  per 3 per terra");
                 if (scortapietre[4] > 0)
                     System.out.println("Premi  per 4 per psiche");
-             //   scelta= scanner.
+                scelta= scanner.leggiIntero("");
+                switch (scelta)
+                {
+                    case 0:
+                        npietre--;
 
-            } while (pietreassegnabili > 0);
+                        break;
+                    case 1:
+                        npietre--;
+                        break;
+                    case 2:
+                        npietre--;
+                        break;
+                    case 3:
+                        npietre--;
+                        break;
+                    case 4:
+                        npietre--;
+                        break;
+                    default:
+                        System.out.println("errore, inserire un valore consono");
+                        break;
+
+                }
+
+            } while (npietre > 0);
         } else {
             return false;
         }
