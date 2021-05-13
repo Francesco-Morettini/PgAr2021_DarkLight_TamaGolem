@@ -6,12 +6,10 @@ import java.util.Scanner;
 public class Giocatore {
     private int tamagolemEvocabili;
     private int tamagolemEliminati = 0;
-    private String username = new String();
     private Tamagolem tamagolem;
 
-    public Giocatore(String username, int tamagolemEvocabili) {
+    public Giocatore( int tamagolemEvocabili) {
         this.tamagolemEvocabili = tamagolemEvocabili;
-        this.username = username;
     }
 
     public boolean evocazione(int vita, int scortapietre[], int pietreassegnabili) {
@@ -30,12 +28,12 @@ public class Giocatore {
                     System.out.println("Premi  per 3 per terra");
                 if (scortapietre[4] > 0)
                     System.out.println("Premi  per 4 per psiche");
-
+             //   scelta= scanner.
 
             } while (pietreassegnabili > 0);
         } else {
             return false;
         }
-        return false;
+        return true;
     }
 }
