@@ -1,4 +1,7 @@
+import UniBSFpLib.src.it.unibs.fp.mylib.InputDati;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Partita {
@@ -7,6 +10,7 @@ public class Partita {
 
     private final int NUMERO_ELEMENTI = 5;
     private final int VITA = 10;
+
 
     private int equilibrio[][] = {
             { 0, 0, 4, 0, 0 },
@@ -17,7 +21,7 @@ public class Partita {
     };
     private Giocatore giocatoreA;
     private Giocatore giocatoreB;
-    private int turno, numeroGolem, numeroPietre ;
+    private int numeroGolem, numeroPietre, numeroPietreScorta, numeroPietrePerElemento;
     private int scortaPietre [] = new int [NUMERO_ELEMENTI];
 
 
@@ -25,14 +29,89 @@ public class Partita {
 
     public Partita() {
         //generaEquilibrio();
-        //giocatoreA = new Giocatore();
-        //giocatoreB = new Giocatore();
+        giocatoreA = new Giocatore(numeroGolem,VITA, numeroPietre);
+        giocatoreB = new Giocatore(numeroGolem, VITA, numeroPietre);
     }
 
+    public void setNumeroPietre(){
+        this.numeroPietre = Math.round(((NUMERO_ELEMENTI+1)/3)+1);
+    }
 
+    public void setNumeroGolem(){
+        this.numeroGolem = Math.round(((NUMERO_ELEMENTI-1)*(NUMERO_ELEMENTI-2))/(2*numeroPietre));
+    }
 
+    public void setNumeroPietreScorta(){
+        this.numeroPietreScorta = Math.round(((2*numeroGolem*numeroPietre)/NUMERO_ELEMENTI)*NUMERO_ELEMENTI);
+    }
 
-/*
+    public void setNumeroPietrePerElemento(){
+        this.numeroPietrePerElemento = Math.round(((2*numeroGolem*numeroPietre)/NUMERO_ELEMENTI));
+    }
+
+    public void setScortaPietre() {
+        for (int i=0; i<NUMERO_ELEMENTI; i++){
+            this.scortaPietre[i] = this.numeroPietrePerElemento;
+        }
+    }
+
+    public Giocatore battaglia(){
+
+        boolean evocazioneEffettuataA = false, evocazioneEffettuataB = false;
+        InputDati input = new InputDati();
+
+        switch (generaCasuale()){
+            case 0:
+                System.out.println("Fase di evocazione GiocatoreA");
+                evocazioneEffettuataA = giocatoreA.evocazione(scortaPietre);
+                System.out.println("Fase di evocazione GiocatoreB");
+                evocazioneEffettuataB = giocatoreB.evocazione(scortaPietre);
+                break;
+
+            case 1:
+                System.out.println("Fase di evocazione GiocatoreB");
+                evocazioneEffettuataB = giocatoreB.evocazione(scortaPietre);
+                System.out.println("Fase di evocazione GiocatoreA");
+                evocazioneEffettuataA = giocatoreA.evocazione(scortaPietre);
+                break;
+        }
+
+        while (evocazioneEffettuataA == true && evocazioneEffettuataB == true) {
+
+            if (equilibrio[giocatoreA.getTamagolem().getIdPietra()][giocatoreB.getTamagolem().getIdPietra()] != 0){
+                System.out.println("Il tamagolem del giocatoreB ha subito un danno di: " + equilibrio[giocatoreA.getTamagolem().getIdPietra()][giocatoreB.getTamagolem().getIdPietra()]);
+                giocatoreB.getTamagolem().setVita(equilibrio[giocatoreA.getTamagolem().getIdPietra()][giocatoreB.getTamagolem().getIdPietra()]);
+            }else{
+                if (giocatoreA.getTamagolem().getIdPietra()==giocatoreB.getTamagolem().getIdPietra()){
+                    System.out.println("Nessun danno subito: le due pietre erano delle stesso elemento");
+                }else{
+                    giocatoreA.getTamagolem().setVita(equilibrio[giocatoreB.getTamagolem().getIdPietra()][giocatoreA.getTamagolem().getIdPietra()]);
+                }
+            }
+
+            if (giocatoreA.getTamagolem().getVita() <= 0){
+                evocazioneEffettuataA = giocatoreA.evocazione(scortaPietre);
+            }else if (giocatoreB.getTamagolem().getVita() <= 0){
+                evocazioneEffettuataB = giocatoreB.evocazione(scortaPietre);
+            }
+
+        }
+
+        if (evocazioneEffettuataA == false)
+            return giocatoreA;
+        else
+            return giocatoreB;
+
+    }
+
+    public int generaCasuale(){
+
+        Random r = new Random();
+        return r.nextInt(1);
+
+    }
+
+    /*
     public void generaEquilibrio() {
 
         Random r = new Random();

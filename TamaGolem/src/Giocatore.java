@@ -17,6 +17,11 @@ public class Giocatore {
 
     }
 
+    public Tamagolem getTamagolem(){
+        return  this.tamagolem;
+    }
+
+
     public boolean evocazione(int scortapietre[]) {
         int scelta,npietre=pietreassegnabili;
         InputDati scanner = new InputDati();

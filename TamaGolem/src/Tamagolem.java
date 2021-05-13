@@ -9,34 +9,35 @@ public class Tamagolem {
         this.vitaDisponibile = vita; //set vita da parametro
     }
 
-    public int getVitaDisponibile() {
+    public int getVita() {
         return vitaDisponibile;
     }
 
-    public void setVitaDisponibile(int danno) {
+    public void setVita(int danno) {
         vitaDisponibile = vitaDisponibile - danno;
     }
+
     public void addPietre(int elemento)
     {
         if(elemento==0)
         {
-            pietreSelezionate.add(pietra= new Pietra(elemento,"ACQUA"));
+            pietreSelezionate.add(pietra = new Pietra(elemento,"ACQUA"));
         }
         if(elemento==1)
         {
-            pietreSelezionate.add(pietra= new Pietra(elemento,"FUOCO"));
+            pietreSelezionate.add(pietra = new Pietra(elemento,"FUOCO"));
         }
         if(elemento==2)
         {
-            pietreSelezionate.add(pietra= new Pietra(elemento,"ARIA"));
+            pietreSelezionate.add(pietra = new Pietra(elemento,"ARIA"));
         }
         if(elemento==3)
         {
-            pietreSelezionate.add(pietra= new Pietra(elemento,"TERRA"));
+            pietreSelezionate.add(pietra = new Pietra(elemento,"TERRA"));
         }
         if(elemento==4)
         {
-            pietreSelezionate.add(pietra= new Pietra(elemento,"PSICHE"));
+            pietreSelezionate.add(pietra = new Pietra(elemento,"PSICHE"));
         }
 
 
