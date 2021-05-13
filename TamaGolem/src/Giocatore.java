@@ -8,7 +8,7 @@ public class Giocatore {
     private int tamagolemEliminati = 0;
     private Tamagolem tamagolem;
 
-    public Giocatore( int tamagolemEvocabili) {
+    public Giocatore(int tamagolemEvocabili) {
         this.tamagolemEvocabili = tamagolemEvocabili;
     }
 

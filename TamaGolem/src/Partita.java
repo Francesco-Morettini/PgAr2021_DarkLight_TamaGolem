@@ -17,7 +17,7 @@ public class Partita {
     };
     private Giocatore giocatoreA;
     private Giocatore giocatoreB;
-    private int turno, numeroGolem, numeroPietre,  ;
+    private int turno, numeroGolem, numeroPietre ;
     private int scortaPietre [] = new int [NUMERO_ELEMENTI];
 
 
@@ -25,12 +25,11 @@ public class Partita {
 
     public Partita() {
         //generaEquilibrio();
-        giocatoreA = new Giocatore();
-        giocatoreB = new Giocatore();
-
+        //giocatoreA = new Giocatore();
+        //giocatoreB = new Giocatore();
     }
 
-    public int setNumero
+
 
 
 /*
