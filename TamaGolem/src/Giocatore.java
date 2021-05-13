@@ -1,6 +1,7 @@
 import UniBSFpLib.src.it.unibs.fp.mylib.InputDati;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Giocatore {
@@ -16,11 +17,14 @@ public class Giocatore {
     private Tamagolem tamagolem;
     private int vita;
     private int pietreassegnabili;
-    private static final String MSG_ACQUA="";
-    public Giocatore(int tamagolemEvocabili, int vita,int pietreassegnabili) {
+    private HashMap<Integer,String> mapElementi;
+
+
+    public Giocatore(int tamagolemEvocabili, int vita, int pietreassegnabili, HashMap mapElementi) {
         this.tamagolemEvocabili = tamagolemEvocabili;
         this.vita=vita;
         this.pietreassegnabili=pietreassegnabili;
+        this.mapElementi = mapElementi;
 
     }
 
@@ -32,54 +36,27 @@ public class Giocatore {
     public boolean evocazione(int scortapietre[]) {
         int scelta,npietre=pietreassegnabili;
         InputDati scanner = new InputDati();
+
         if (tamagolemEvocabili > 0) {
-            tamagolem= new Tamagolem(vita);
+            tamagolem = new Tamagolem(vita);
             tamagolemEvocabili--;
             do {
-                System.out.println(SCEGLI_LA_PIETRA_DA_ASSEGNARE_AL_TAMAGOLEM);
-                if (scortapietre[0] > 0)
-                    System.out.println(ACQUA_PIETRE_DISPONIBILI +scortapietre[0]);
-                if (scortapietre[1] > 0)
-                    System.out.println(FUOCO_PIETRE_DISPONIBILI +scortapietre[1]);
-                if (scortapietre[2] > 0)
-                    System.out.println(ARIA_PIETRE_DISPONIBILI +scortapietre[2]);
-                if (scortapietre[3] > 0)
-                    System.out.println(TERRA_PIETRE_DISPONIBILI +scortapietre[3]);
-                if (scortapietre[4] > 0)
-                    System.out.println(ETERE_PIETRE_DISPONIBILI +scortapietre[4]);
-                scelta= scanner.leggiIntero("");
-                switch (scelta)
-                {
-                    case 0:
-                        scortapietre[scelta]--;
-                        npietre--;
-                        tamagolem.addPietre(scelta);
-                        break;
-                    case 1:
-                        scortapietre[scelta]--;
-                        npietre--;
-                        tamagolem.addPietre(scelta);
-                        break;
-                    case 2:
-                        scortapietre[scelta]--;
-                        npietre--;
-                        tamagolem.addPietre(scelta);
-                        break;
-                    case 3:
-                        scortapietre[scelta]--;
-                        npietre--;
-                        tamagolem.addPietre(scelta);
-                        break;
-                    case 4:
-                        scortapietre[scelta]--;
-                        npietre--;
-                        tamagolem.addPietre(scelta);
-                        break;
-                    default:
-                        System.out.println(ERRORE_INSERIRE_UN_VALORE_CONSONO);
-                        break;
 
-                }
+                System.out.println(SCEGLI_LA_PIETRA_DA_ASSEGNARE_AL_TAMAGOLEM);
+
+                do {
+                    mapElementi.forEach((id, nome) -> {
+                        System.out.println(id + ") "+ nome +" ( Pietre disponibili nella scorta: " + scortapietre[id] + " )");
+                    });
+                    scelta= scanner.leggiIntero("Inserire l'id corrispondente all'elemento tra le pietre disponibili:",0,mapElementi.size()-1);
+                    if (scortapietre[scelta]<=0){
+                        System.out.println("La pietra selezionata non è disponibile!");
+                    }
+                }while (scortapietre[scelta]<=0);
+
+                scortapietre[scelta]--;
+                npietre--;
+                tamagolem.addPietre(scelta);
 
             } while (npietre > 0);
         } else {

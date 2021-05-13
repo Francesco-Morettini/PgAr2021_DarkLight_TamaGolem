@@ -8,10 +8,16 @@ public class Partita {
 
     public enum Elemento { ARIA, TERRA, FUOCO, ACQUA, ETERE};
 
+    private final String MSG_EVOCAZIONE_A = "Fase di evocazione GiocatoreA";
+    private final String MSG_EVOCAZIONE_B = "Fase di evocazione GiocatoreB";
+    private final String MSG_DANNO_A = "Il tamagolem del giocatoreA ha subito un danno di: ";
+    private final String MSG_DANNO_B = "Il tamagolem del giocatoreB ha subito un danno di: ";
+    private final String MSG_NO_DANNO = "Nessun danno subito: le due pietre erano delle stesso elemento!";
+
     private final int NUMERO_ELEMENTI = 5;
     private final int VITA = 10;
 
-
+    private HashMap<Integer,String> mapElementi = new HashMap<Integer, String>();
     private int equilibrio[][] = {
             { 0, 0, 4, 0, 0 },
             { 2, 0, 0, 2, 0 },
@@ -28,9 +34,20 @@ public class Partita {
 
 
     public Partita() {
+        generaMap();
         //generaEquilibrio();
-        giocatoreA = new Giocatore(numeroGolem,VITA, numeroPietre);
-        giocatoreB = new Giocatore(numeroGolem, VITA, numeroPietre);
+        giocatoreA = new Giocatore(numeroGolem,VITA, numeroPietre, mapElementi);
+        giocatoreB = new Giocatore(numeroGolem, VITA, numeroPietre, mapElementi);
+    }
+
+    public void generaMap(){
+
+        Elemento elementi []= Elemento.values();
+
+        for (int i=0; i<NUMERO_ELEMENTI; i++){
+            mapElementi.put(i,elementi[i].toString());
+        }
+
     }
 
     public void setNumeroPietre(){
@@ -55,36 +72,36 @@ public class Partita {
         }
     }
 
-    public Giocatore battaglia(){
+    public String battaglia(){
 
         boolean evocazioneEffettuataA = false, evocazioneEffettuataB = false;
-        InputDati input = new InputDati();
 
         switch (generaCasuale()){
             case 0:
-                System.out.println("Fase di evocazione GiocatoreA");
+                System.out.println(MSG_EVOCAZIONE_A);
                 evocazioneEffettuataA = giocatoreA.evocazione(scortaPietre);
-                System.out.println("Fase di evocazione GiocatoreB");
+                System.out.println(MSG_EVOCAZIONE_B);
                 evocazioneEffettuataB = giocatoreB.evocazione(scortaPietre);
                 break;
 
             case 1:
-                System.out.println("Fase di evocazione GiocatoreB");
+                System.out.println(MSG_EVOCAZIONE_B);
                 evocazioneEffettuataB = giocatoreB.evocazione(scortaPietre);
-                System.out.println("Fase di evocazione GiocatoreA");
+                System.out.println(MSG_EVOCAZIONE_A);
                 evocazioneEffettuataA = giocatoreA.evocazione(scortaPietre);
                 break;
         }
-
+/*
         while (evocazioneEffettuataA == true && evocazioneEffettuataB == true) {
 
             if (equilibrio[giocatoreA.getTamagolem().getIdPietra()][giocatoreB.getTamagolem().getIdPietra()] != 0){
-                System.out.println("Il tamagolem del giocatoreB ha subito un danno di: " + equilibrio[giocatoreA.getTamagolem().getIdPietra()][giocatoreB.getTamagolem().getIdPietra()]);
+                System.out.println(MSG_DANNO_B + equilibrio[giocatoreA.getTamagolem().getIdPietra()][giocatoreB.getTamagolem().getIdPietra()]);
                 giocatoreB.getTamagolem().setVita(equilibrio[giocatoreA.getTamagolem().getIdPietra()][giocatoreB.getTamagolem().getIdPietra()]);
             }else{
-                if (giocatoreA.getTamagolem().getIdPietra()==giocatoreB.getTamagolem().getIdPietra()){
-                    System.out.println("Nessun danno subito: le due pietre erano delle stesso elemento");
+                if (giocatoreA.getTamagolem().getIdPietra() == giocatoreB.getTamagolem().getIdPietra()){
+                    System.out.println(MSG_NO_DANNO);
                 }else{
+                    System.out.println(MSG_DANNO_A + equilibrio[giocatoreB.getTamagolem().getIdPietra()][giocatoreA.getTamagolem().getIdPietra()]);
                     giocatoreA.getTamagolem().setVita(equilibrio[giocatoreB.getTamagolem().getIdPietra()][giocatoreA.getTamagolem().getIdPietra()]);
                 }
             }
@@ -95,12 +112,12 @@ public class Partita {
                 evocazioneEffettuataB = giocatoreB.evocazione(scortaPietre);
             }
 
-        }
+        }*/
 
         if (evocazioneEffettuataA == false)
-            return giocatoreA;
+            return "giocatoreB";
         else
-            return giocatoreB;
+            return "giocatoreA";
 
     }
 

@@ -37,7 +37,7 @@ public class Tamagolem {
         }
         if(elemento==4)
         {
-            pietreSelezionate.add(pietra = new Pietra(elemento,"PSICHE"));
+            pietreSelezionate.add(pietra = new Pietra(elemento,"ETERE"));
         }
 
 
