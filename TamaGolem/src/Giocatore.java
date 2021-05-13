@@ -1,21 +1,23 @@
+import UniBSFpLib.src.it.unibs.fp.mylib.InputDati;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Giocatore {
     private int tamagolemEvocabili;
-    private int tamagolemEliminati=0;
+    private int tamagolemEliminati = 0;
     private String username = new String();
     private Tamagolem tamagolem;
-    public Giocatore(String username,int tamagolemEvocabili)
-    {
-        this.tamagolemEvocabili=tamagolemEvocabili;
-        this.username=username;
-    }
-    public boolean evocazione(int vita, int scortapietre[],int pietreassegnabili)
-    {
-        int scelta;
 
-        if(tamagolemEvocabili>0) {
+    public Giocatore(String username, int tamagolemEvocabili) {
+        this.tamagolemEvocabili = tamagolemEvocabili;
+        this.username = username;
+    }
+
+    public boolean evocazione(int vita, int scortapietre[], int pietreassegnabili) {
+        int scelta;
+        InputDati scanner = new InputDati();
+        if (tamagolemEvocabili > 0) {
             do {
                 System.out.println("Benvenuto scegli la pietra da assegnare al tamagolem:");
                 if (scortapietre[0] > 0)
@@ -30,9 +32,10 @@ public class Giocatore {
                     System.out.println("Premi  per 4 per psiche");
 
 
-            }while(pietreassegnabili>0)
+            } while (pietreassegnabili > 0);
+        } else {
+            return false;
         }
-        else
-            false;
+        return false;
     }
 }
