@@ -36,6 +36,11 @@ public class Partita {
     public Partita() {
         generaMap();
         //generaEquilibrio();
+        setNumeroPietre();
+        setNumeroGolem();
+        setNumeroPietreScorta();
+        setNumeroPietrePerElemento();
+        setScortaPietre();
         giocatoreA = new Giocatore(numeroGolem,VITA, numeroPietre, mapElementi);
         giocatoreB = new Giocatore(numeroGolem, VITA, numeroPietre, mapElementi);
     }
@@ -51,19 +56,26 @@ public class Partita {
     }
 
     public void setNumeroPietre(){
-        this.numeroPietre = Math.round(((NUMERO_ELEMENTI+1)/3)+1);
+        double k = (NUMERO_ELEMENTI+1)/3;
+        this.numeroPietre = (int)(Math.ceil(k) + 1);
     }
 
     public void setNumeroGolem(){
-        this.numeroGolem = Math.round(((NUMERO_ELEMENTI-1)*(NUMERO_ELEMENTI-2))/(2*numeroPietre));
+        double k = (NUMERO_ELEMENTI-1)*(NUMERO_ELEMENTI-2);
+        k = k/(2*numeroPietre);
+        this.numeroGolem = (int)Math.ceil(k);
     }
 
     public void setNumeroPietreScorta(){
-        this.numeroPietreScorta = Math.round(((2*numeroGolem*numeroPietre)/NUMERO_ELEMENTI)*NUMERO_ELEMENTI);
+        double k = 2 * numeroGolem * numeroPietre;
+        k = k/NUMERO_ELEMENTI;
+        this.numeroPietreScorta = (int)(Math.ceil(k) * NUMERO_ELEMENTI);
     }
 
     public void setNumeroPietrePerElemento(){
-        this.numeroPietrePerElemento = Math.round(((2*numeroGolem*numeroPietre)/NUMERO_ELEMENTI));
+        double k = 2*numeroGolem*numeroPietre;
+        k = k/NUMERO_ELEMENTI;
+        this.numeroPietrePerElemento = (int)Math.ceil(k);
     }
 
     public void setScortaPietre() {
@@ -72,6 +84,7 @@ public class Partita {
         }
     }
 
+    //Aggiungere metodo per decrementare scortapietre
     public String battaglia(){
 
         boolean evocazioneEffettuataA = false, evocazioneEffettuataB = false;
@@ -91,28 +104,41 @@ public class Partita {
                 evocazioneEffettuataA = giocatoreA.evocazione(scortaPietre);
                 break;
         }
-/*
+
         while (evocazioneEffettuataA == true && evocazioneEffettuataB == true) {
 
-            if (equilibrio[giocatoreA.getTamagolem().getIdPietra()][giocatoreB.getTamagolem().getIdPietra()] != 0){
-                System.out.println(MSG_DANNO_B + equilibrio[giocatoreA.getTamagolem().getIdPietra()][giocatoreB.getTamagolem().getIdPietra()]);
-                giocatoreB.getTamagolem().setVita(equilibrio[giocatoreA.getTamagolem().getIdPietra()][giocatoreB.getTamagolem().getIdPietra()]);
+            int i = giocatoreA.getTamagolem().getIdPietra();
+            int j = giocatoreB.getTamagolem().getIdPietra();
+
+            if (equilibrio[i][j] != 0){
+                int f = equilibrio[i][j];//equilibrio[giocatoreA.getTamagolem().getIdPietra()][giocatoreB.getTamagolem().getIdPietra()];
+                System.out.println(MSG_DANNO_B + equilibrio[i][j]);
+                giocatoreB.getTamagolem().setVita(equilibrio[i][j]);
             }else{
-                if (giocatoreA.getTamagolem().getIdPietra() == giocatoreB.getTamagolem().getIdPietra()){
+
+                if (i == j){
                     System.out.println(MSG_NO_DANNO);
                 }else{
-                    System.out.println(MSG_DANNO_A + equilibrio[giocatoreB.getTamagolem().getIdPietra()][giocatoreA.getTamagolem().getIdPietra()]);
-                    giocatoreA.getTamagolem().setVita(equilibrio[giocatoreB.getTamagolem().getIdPietra()][giocatoreA.getTamagolem().getIdPietra()]);
+                    System.out.println(MSG_DANNO_A + equilibrio[j][i]);
+                    giocatoreA.getTamagolem().setVita(equilibrio[j][i]);
                 }
+
             }
 
             if (giocatoreA.getTamagolem().getVita() <= 0){
+                System.out.println("Il Tamagolem del giocatoreA è stato sconfitto!");
+                System.out.println(MSG_EVOCAZIONE_A);
                 evocazioneEffettuataA = giocatoreA.evocazione(scortaPietre);
+
             }else if (giocatoreB.getTamagolem().getVita() <= 0){
+                System.out.println("Il Tamagolem del giocatoreB è stato sconfitto!");
+                if (giocatoreB.getTamagolemEvocabili()>0)
+                System.out.println(MSG_EVOCAZIONE_B);
                 evocazioneEffettuataB = giocatoreB.evocazione(scortaPietre);
+
             }
 
-        }*/
+        }
 
         if (evocazioneEffettuataA == false)
             return "giocatoreB";
@@ -124,7 +150,7 @@ public class Partita {
     public int generaCasuale(){
 
         Random r = new Random();
-        return r.nextInt(1);
+        return r.nextInt(2);
 
     }
 

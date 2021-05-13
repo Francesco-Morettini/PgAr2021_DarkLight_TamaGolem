@@ -32,6 +32,9 @@ public class Giocatore {
         return  this.tamagolem;
     }
 
+    public int getTamagolemEvocabili(){
+        return this.tamagolemEvocabili;
+    }
 
     public boolean evocazione(int scortapietre[]) {
         int scelta,npietre=pietreassegnabili;
@@ -56,7 +59,7 @@ public class Giocatore {
 
                 scortapietre[scelta]--;
                 npietre--;
-                tamagolem.addPietre(scelta);
+                tamagolem.addPietre(scelta,mapElementi.get(scelta));
 
             } while (npietre > 0);
         } else {

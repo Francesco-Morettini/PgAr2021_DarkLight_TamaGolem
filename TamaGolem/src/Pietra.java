@@ -8,5 +8,9 @@ public class Pietra {
         this.nome=nome;
     }
 
+    public int getIndex(){
+        return index;
+    }
+
 
 }
