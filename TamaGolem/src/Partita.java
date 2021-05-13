@@ -1,19 +1,36 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Partita {
 
-    private final int N = 5;
-    private int equilibrio[][] = new int[N][N];
+    public enum Elemento { ARIA, TERRA, FUOCO, ACQUA, ETERE};
 
+    private final int NUMERO_ELEMENTI = 5;
+    private final int VITA = 10;
+
+    private int equilibrio[][] = {
+            { 0, 0, 4, 0, 0 },
+            { 2, 0, 0, 2, 0 },
+            { 0, 3, 0, 0, 3 },
+            { 1, 0, 2, 0, 0 },
+            { 1, 1, 0, 1, 0 }
+    };
+    private Giocatore giocatoreA;
+    private Giocatore giocatoreB;
+    private int turno, numeroGolem, numeroPietre,  ;
+    private int scortaPietre [] = new int [NUMERO_ELEMENTI];
 
 
 
 
     public Partita() {
         //generaEquilibrio();
+        giocatoreA = new Giocatore();
+        giocatoreB = new Giocatore();
+
     }
 
-
+    public int setNumero
 
 
 /*
