@@ -5,7 +5,7 @@ public class Tamagolem {
     private int vitaDisponibile;
     private Pietra pietra;
     public Tamagolem(int vita) {
-        pietreSelezionate = new ArrayList<String>();
+        pietreSelezionate = new ArrayList<Pietra>();
         this.vitaDisponibile = vita; //set vita da parametro
     }
 
