@@ -199,13 +199,17 @@ public class Partita {
                     if (equilibrio[i][j] == 0 && i!=j){
                         contatorezeri--;
                     }
-                    //if (contatorezeri>1){
-                        //sommariga -= equilibrio[j][i];
-                    //}
                 }
             }
 
         }
+
+        if (calcolaSommaColonna(NUMERO_ELEMENTI-1) < calcolaSommaRiga(NUMERO_ELEMENTI-1)){
+            equilibrio[NUMERO_ELEMENTI-2][NUMERO_ELEMENTI-1] = calcolaSommaRiga(NUMERO_ELEMENTI-1) - calcolaSommaColonna(NUMERO_ELEMENTI-1);
+        }else if (calcolaSommaRiga(NUMERO_ELEMENTI-1) < calcolaSommaColonna(NUMERO_ELEMENTI-1)){
+            equilibrio[NUMERO_ELEMENTI-1][NUMERO_ELEMENTI-2] = calcolaSommaColonna(NUMERO_ELEMENTI-1) - calcolaSommaRiga(NUMERO_ELEMENTI-1);
+        }
+
 
     }
 
@@ -265,16 +269,17 @@ public class Partita {
 
     public void getNumeroCasualerighe(int riga, int colonna, int cellesettate,int contatorezeri, int cellesettabili, Random r) {
 
-        int sommariga, sommacolonna, numeroCasuale;
+        int sommariga, sommacolonna, numeroCasuale, sommaColonnaAttuale;
 
         sommacolonna = calcolaSommaColonna(riga);
+        sommaColonnaAttuale = calcolaSommaColonna(riga+1);
         sommariga = calcolaSommaRiga(riga);
 
-        if (sommariga<VITA && sommacolonna<VITA){
+        if (sommariga<VITA && sommacolonna<VITA && sommaColonnaAttuale<VITA){
 
             if(cellesettate<cellesettabili){
                     if(VITA-Math.max(sommariga,sommacolonna)>0) {
-                        numeroCasuale = r.nextInt(VITA - Math.max(sommariga, sommacolonna));
+                        numeroCasuale = r.nextInt(VITA - Math.max(Math.max(sommacolonna,sommariga),sommaColonnaAttuale));
                         if (colonna == NUMERO_ELEMENTI-1 && contatorezeri>cellesettabili) {
                             switch (numeroCasuale) {
                                 case 0:
@@ -290,10 +295,23 @@ public class Partita {
 
                             }
                         }else{
-                                if (numeroCasuale < sommacolonna)
-                                    equilibrio[riga][colonna] = sommacolonna;
-                                else
-                                    equilibrio[riga][colonna] = numeroCasuale;
+                            if (colonna == NUMERO_ELEMENTI-2){
+                                if (sommacolonna<=sommaColonnaAttuale){
+                                    equilibrio[riga][colonna] = 0;
+                                }
+                            }else{
+                                if (contatorezeri == 2){
+                                    if (numeroCasuale < sommacolonna && sommariga<sommacolonna)
+                                        equilibrio[riga][colonna] = sommacolonna;
+                                    else
+                                        equilibrio[riga][colonna] = numeroCasuale;
+                               }else{
+                                    if (numeroCasuale < sommacolonna && sommariga<sommacolonna)
+                                        equilibrio[riga][colonna] = sommacolonna/contatorezeri;
+                                    else
+                                        equilibrio[riga][colonna] = numeroCasuale; }
+                            }
+
                         }
 
                     }
