@@ -1,8 +1,6 @@
 import UniBSFpLib.src.it.unibs.fp.mylib.InputDati;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class Giocatore {
     public static final String ACQUA_PIETRE_DISPONIBILI = "Premi  per 0 per acqua : pietre disponibili -> ";
@@ -28,18 +26,31 @@ public class Giocatore {
 
     }
 
+    /**
+     * ritorna il tamagolem creato
+     * @return Tamagolem
+     */
     public Tamagolem getTamagolem(){
         return  this.tamagolem;
     }
 
+    /**
+     * ritorna il valore di tamagolem che posso essere evocati
+     * @return tamagolemEvocabili
+     */
     public int getTamagolemEvocabili(){
         return this.tamagolemEvocabili;
     }
 
+    /**
+     *crea un oggetto di tipo tamagolem e gli assegna una arraylist di pietre
+     * @param scortapietre
+     * @return boolean
+     */
     public boolean evocazione(int scortapietre[]) {
         int scelta,npietre=pietreassegnabili;
         InputDati scanner = new InputDati();
-
+        //controllo che il giocatore possegga ancora dei tamagolem da poter evocare
         if (tamagolemEvocabili > 0) {
             tamagolem = new Tamagolem(vita);
             tamagolemEvocabili--;
@@ -52,6 +63,7 @@ public class Giocatore {
                         System.out.println(id + ") "+ nome +" ( Pietre disponibili nella scorta: " + scortapietre[id] + " )");
                     });
                     scelta= scanner.leggiIntero("Inserire l'id corrispondente all'elemento tra le pietre disponibili:",0,mapElementi.size()-1);
+                   //controllo la presenza di pietre di un determinato elemento
                     if (scortapietre[scelta]<=0){
                         System.out.println("La pietra selezionata non è disponibile!");
                     }

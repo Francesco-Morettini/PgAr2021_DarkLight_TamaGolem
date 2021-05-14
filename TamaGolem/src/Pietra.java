@@ -8,6 +8,10 @@ public class Pietra {
         this.nome=nome;
     }
 
+    /**
+     * restituisce l'id della pietra
+     * @return index
+     */
     public int getIndex(){
         return index;
     }
