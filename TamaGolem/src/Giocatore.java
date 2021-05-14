@@ -16,7 +16,7 @@ public class Giocatore {
     private int vita;
     private int pietreassegnabili;
     private HashMap<Integer,String> mapElementi;
-
+//prova
 
     public Giocatore(int tamagolemEvocabili, int vita, int pietreassegnabili, HashMap mapElementi) {
         this.tamagolemEvocabili = tamagolemEvocabili;
