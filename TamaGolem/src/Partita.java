@@ -18,13 +18,14 @@ public class Partita {
     private final int VITA = 10;
 
     private HashMap<Integer,String> mapElementi = new HashMap<Integer, String>();
-    private int equilibrio[][] = {
+    /*private int equilibrio[][] = {
             { 0, 0, 4, 0, 0 },
             { 2, 0, 0, 2, 0 },
             { 0, 3, 0, 0, 3 },
             { 1, 0, 2, 0, 0 },
             { 1, 1, 0, 1, 0 }
-    };
+    };*/
+    private int equilibrio[][] = new int[NUMERO_ELEMENTI][NUMERO_ELEMENTI];
     private Giocatore giocatoreA;
     private Giocatore giocatoreB;
     private int numeroGolem, numeroPietre, numeroPietreScorta, numeroPietrePerElemento;
@@ -35,7 +36,7 @@ public class Partita {
 
     public Partita() {
         generaMap();
-        //generaEquilibrio();
+        generaEquilibrio();
         setNumeroPietre();
         setNumeroGolem();
         setNumeroPietreScorta();
@@ -127,14 +128,20 @@ public class Partita {
 
             if (giocatoreA.getTamagolem().getVita() <= 0){
                 System.out.println("Il Tamagolem del giocatoreA è stato sconfitto!");
-                System.out.println(MSG_EVOCAZIONE_A);
-                evocazioneEffettuataA = giocatoreA.evocazione(scortaPietre);
-
+                if(giocatoreA.getTamagolemEvocabili()>0){
+                    System.out.println(MSG_EVOCAZIONE_A);
+                    evocazioneEffettuataA = giocatoreA.evocazione(scortaPietre);
+                }else {
+                    evocazioneEffettuataA = false;
+                }
             }else if (giocatoreB.getTamagolem().getVita() <= 0){
                 System.out.println("Il Tamagolem del giocatoreB è stato sconfitto!");
-                if (giocatoreB.getTamagolemEvocabili()>0)
-                System.out.println(MSG_EVOCAZIONE_B);
-                evocazioneEffettuataB = giocatoreB.evocazione(scortaPietre);
+                if (giocatoreB.getTamagolemEvocabili()>0){
+                    System.out.println(MSG_EVOCAZIONE_B);
+                    evocazioneEffettuataB = giocatoreB.evocazione(scortaPietre);
+                }else{
+                    evocazioneEffettuataB = false;
+                }
 
             }
 
@@ -154,23 +161,23 @@ public class Partita {
 
     }
 
-    /*
+
     public void generaEquilibrio() {
 
         Random r = new Random();
         int cellesettate, cellesettabili, contatorezeri, sommariga;
 
-        for(int i=0; i<3; i++) {
+        for(int i=0; i<NUMERO_ELEMENTI-2; i++) {
 
             cellesettate = 0;
             cellesettabili = 0;
 
-            for (int j=i+1; j<5; j++) {
+            for (int j=i+1; j<NUMERO_ELEMENTI; j++) {
                 cellesettabili ++;
             }
             cellesettabili--;
 
-            for (int j=0; j<5; j++) {
+            for (int j=0; j<NUMERO_ELEMENTI; j++) {
 
                 if (j>i){
 
@@ -186,28 +193,28 @@ public class Partita {
             sommariga = calcolaSommaRiga(i);
 
 
-            for(int j=i+1; j<5; j++) {
+            for(int j=i+1; j<NUMERO_ELEMENTI; j++) {
                 if (contatorezeri>=1){
                     getNumeroCasualecolonna(j,i,contatorezeri,sommariga,r);
                     if (equilibrio[i][j] == 0 && i!=j){
                         contatorezeri--;
                     }
-                    if (contatorezeri>1){
-                        sommariga -= equilibrio[j][i];
-                    }
+                    //if (contatorezeri>1){
+                        //sommariga -= equilibrio[j][i];
+                    //}
                 }
             }
 
         }
 
     }
-*/
 
-/*
+
+
     public void stampaEquilibrio(){
 
-        for (int i=0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i=0; i < NUMERO_ELEMENTI; i++) {
+            for (int j = 0; j < NUMERO_ELEMENTI; j++) {
                 System.out.print(equilibrio[i][j]);
 
             }
@@ -215,14 +222,14 @@ public class Partita {
         }
 
     }
-*/
 
 
-/*
+
+
     public int contaZeriRiga(int riga){
         int contatorezeri=0;
 
-        for (int k=riga+1; k<5; k++) {
+        for (int k=riga+1; k<NUMERO_ELEMENTI; k++) {
             if (equilibrio[riga][k]==0)
                 contatorezeri ++;
         }
@@ -230,32 +237,32 @@ public class Partita {
         return contatorezeri;
 
     }
-*/
 
 
-/*
+
+
     public int calcolaSommaRiga(int riga){
         int sommariga = 0;
-        for (int i=0; i<5; i++) {
+        for (int i=0; i<NUMERO_ELEMENTI; i++) {
             sommariga += equilibrio[riga][i];
         }
         return sommariga;
     }
-*/
 
 
-/*
+
+
     public int calcolaSommaColonna(int colonna){
         int sommacolonna = 0;
-        for (int i=0; i<5; i++) {
+        for (int i=0; i<NUMERO_ELEMENTI; i++) {
             sommacolonna += equilibrio[i][colonna];
         }
         return sommacolonna;
     }
-*/
 
 
-/*
+
+
     public void getNumeroCasualerighe(int riga, int colonna, int cellesettate,int contatorezeri, int cellesettabili, Random r) {
 
         int sommariga, sommacolonna, numeroCasuale;
@@ -263,22 +270,20 @@ public class Partita {
         sommacolonna = calcolaSommaColonna(riga);
         sommariga = calcolaSommaRiga(riga);
 
-        if (sommariga<10 && sommacolonna<10){
+        if (sommariga<VITA && sommacolonna<VITA){
 
             if(cellesettate<cellesettabili){
-                    if(10-Math.max(sommariga,sommacolonna)>0) {
-                        //genera numero casuale maggiore di 0
-                        numeroCasuale = r.nextInt(10 - Math.max(sommariga, sommacolonna));
-                        //n-1
-                        if (colonna == 4 && contatorezeri>cellesettabili) {
+                    if(VITA-Math.max(sommariga,sommacolonna)>0) {
+                        numeroCasuale = r.nextInt(VITA - Math.max(sommariga, sommacolonna));
+                        if (colonna == NUMERO_ELEMENTI-1 && contatorezeri>cellesettabili) {
                             switch (numeroCasuale) {
                                 case 0:
                                     equilibrio[riga][colonna] = 1;
                                     break;
 
                                 default:
-                                    if (numeroCasuale < sommacolonna)
-                                        equilibrio[riga][colonna] = sommacolonna;
+                                    if (sommariga < sommacolonna)
+                                        equilibrio[riga][colonna] = sommacolonna + 1;
                                     else
                                         equilibrio[riga][colonna] = numeroCasuale;
                                     break;
@@ -289,7 +294,7 @@ public class Partita {
                                     equilibrio[riga][colonna] = sommacolonna;
                                 else
                                     equilibrio[riga][colonna] = numeroCasuale;
-                            }
+                        }
 
                     }
 
@@ -298,29 +303,35 @@ public class Partita {
        }
 
     }
-*/
 
 
 
-/*
+
+
     public void getNumeroCasualecolonna(int riga, int colonna, int contazeri, int sommariga, Random r) {
 
-        int sommacolonna;
+        int sommacolonna, max, numeroCasuale;
 
         sommacolonna = calcolaSommaColonna(colonna);
 
-        if (sommacolonna < 10) {
+        if (sommacolonna < VITA) {
 
             if (equilibrio[colonna][riga] == 0 && colonna!=riga) {
 
                 switch (contazeri){
                     case 1:
-                        equilibrio[riga][colonna]=sommariga - sommacolonna;
+                        equilibrio[riga][colonna] = sommariga - sommacolonna;
                         break;
 
                     default:
                         if(sommariga-sommacolonna>0) {
-                            equilibrio[riga][colonna] = r.nextInt(sommariga - sommacolonna) - contazeri;
+                            max = (sommariga-sommacolonna)/contazeri;
+                            numeroCasuale = r.nextInt(max);
+                            if (numeroCasuale == 0){
+                                equilibrio[riga][colonna] = 1;
+                            }else {
+                                equilibrio[riga][colonna] = numeroCasuale;
+                            }
                         }
                         break;
 
@@ -331,7 +342,7 @@ public class Partita {
         }
 
     }
-*/
+
 
 }
 
